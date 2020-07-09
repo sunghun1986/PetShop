@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AdminDAO {
 	
-	@Autowired
+	@Autowired(required = true)
 	private SqlSessionTemplate sessionTemplate;
 	
 	public Admin loginCheck(Admin admin) {

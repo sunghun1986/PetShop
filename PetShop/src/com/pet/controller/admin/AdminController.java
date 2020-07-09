@@ -1,5 +1,8 @@
 package com.pet.controller.admin;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +15,40 @@ import com.pet.model.admin.AdminService;
 @Controller
 public class AdminController {
 	
-	@Autowired
+	@Autowired(required = true)
 	private AdminService adminService;
 	
-	@RequestMapping(value="/admin/test", method=RequestMethod.GET)
-	public ModelAndView loginCheck(Admin admin) {
+	@RequestMapping(value="/admin/login", method=RequestMethod.POST)
+	public ModelAndView loginCheck(Admin admin, HttpServletRequest request) {
 		
 		Admin result = adminService.loginCheck(admin);
-		System.out.println("결과 id : "+result.getId());
-		return null;
+		//로그인 인증을 성공한 사람은, 브라우저를 닫을때까지 데이터를 유지할수 있는
+		//효과를 부여해 줘야 한다...HttpSession 내장객체는 session
+		
+		ModelAndView mav = new ModelAndView();
+		if(result != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("admin", result);//회원정보 저장
+			//관리자 모드 메인 페이지 보여줌
+			mav.setViewName("admin/index");
+			System.out.println("결과 id : "+result.getId());
+		}else {
+			//욕페이지 보여줌
+			mav.setViewName("view/error");
+			mav.addObject("msg", "로그인 정보가 올바르지 않습니다.");
+		}
+		return mav;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+

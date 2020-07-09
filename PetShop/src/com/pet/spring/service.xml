@@ -20,7 +20,8 @@
 		트랜잭션 매니져를 등록해야 한다... jdbc,mybatis,ibatis : DataSourceTransactionManager 사용 -->
 
 	<bean id="dataSourceTransactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager" />
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"/>
 
 	<!-- mybatis 연동 -->
 

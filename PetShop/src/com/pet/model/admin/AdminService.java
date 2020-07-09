@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminService {
 	
-	@Autowired
+	@Autowired(required = true)
 	private AdminDAO adminDAO;
 	
 	public Admin loginCheck(Admin admin) {
