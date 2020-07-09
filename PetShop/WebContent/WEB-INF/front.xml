@@ -21,8 +21,10 @@
 	</context:component-scan>
 	
 	<!-- 정적자원(img,html,css,js)까지 
-		DispatcherSerlvet이 요청을 처리하지 않게 하자!! (정적자원처리법)-->
-		<!--  <mvc:resources location="/" mapping="/**"/>-->
+		DispatcherSerlvet이 요청을 처리하지 않게 하자!! (정적자원처리법)
+		따라서, 아래의 태그를 등록하면, 다시 디폴트 서블릿이 정상화 된다..-->
+		<mvc:default-servlet-handler/>
+		<mvc:annotation-driven/>
 	
 
 </beans>
