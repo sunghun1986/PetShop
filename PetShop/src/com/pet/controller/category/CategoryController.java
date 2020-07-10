@@ -1,10 +1,13 @@
 package com.pet.controller.category;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pet.exception.CategoryDMLException;
@@ -23,6 +26,39 @@ public class CategoryController {
 	public String regist(Category category) {
 		System.out.println("파라미터값: " + category.getCategory_name());
 		categoryService.regist(category);
+		return "1";
+	}
+	
+	@RequestMapping(value="/category/list", method=RequestMethod.GET)
+	@ResponseBody
+	public String selectAll() {
+		List<Category> categoryList = categoryService.selectAll();
+		
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("{");
+		sb.append("\"categoryList\":[");
+		for(int i = 0; i<categoryList.size(); i++) {
+			Category category = categoryList.get(i);
+			sb.append("{");
+			sb.append("\"category_id\":\""+category.getCategory_id()+"\",");
+			sb.append("\"category_name\":\""+category.getCategory_name()+"\",");
+			sb.append("\"rank\":\""+category.getRank()+"\"");
+			if(i<categoryList.size()-1) {
+			sb.append("},");
+			}else {
+				sb.append("}");
+			}
+		}
+		sb.append("]");
+		sb.append("}");
+		
+		return sb.toString();
+	}
+	@RequestMapping(value="/category/del", method=RequestMethod.GET)
+	@ResponseBody
+	public String delete(@RequestParam("category_id") int category_id) {
+		categoryService.delete(category_id);
 		return "1";
 	}
 	

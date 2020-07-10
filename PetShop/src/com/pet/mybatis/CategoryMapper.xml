@@ -23,6 +23,10 @@
 		values(seq_category.nextval, #{category_name})
 	</insert>
 	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from category where category_id=#{category_id}
+	</delete>
 	
 	
 	

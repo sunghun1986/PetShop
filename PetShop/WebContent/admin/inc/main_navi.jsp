@@ -10,5 +10,5 @@
   <a href="/admin/member/index.jsp">회원정보</a>
   <a href="/admin/order/index.jsp">주문정보</a>
   <a href="/admin/cs/index.jsp">고객센터</a>
-  <a><%=admin.getName()%>님 로그인 중</a>
+  <a><%//=admin.getName()%>님 로그인 중</a>
 </div>
