@@ -6,7 +6,7 @@
 <div class="topnav">
   <a class="active" href="#home">Home</a>
   <a href="/admin/category/index.jsp">카테고리 관리</a>
-  <a href="/admin/product/index.jsp">상품 관리</a>
+  <a href="/admin/product/list">상품 관리</a>
   <a href="/admin/member/index.jsp">회원정보</a>
   <a href="/admin/order/index.jsp">주문정보</a>
   <a href="/admin/cs/index.jsp">고객센터</a>
