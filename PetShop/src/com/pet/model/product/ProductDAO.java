@@ -23,5 +23,34 @@ public class ProductDAO {
 	public List selectAll() {
 		return sessionTemplate.selectList("Product.All");
 	}
+	
+	public Product select(int product_id) {
+		return sessionTemplate.selectOne("Product.byId",product_id);
+	}
+	
+	public void delete(int product_id) throws DMLException{
+		int result = sessionTemplate.delete("Product.delete", product_id);
+		if(result==0) {
+			throw new DMLException("상품이 삭제처리 되지 않았습니다");
+		}
+	}
+	
+	public void update(Product product) {
+		int result = sessionTemplate.update("Product.update",product);
+		if(result == 0) {
+			throw new DMLException("상품이 수정처리 되지 않았습니다");
+		}
+	}
+
 
 }
+
+
+
+
+
+
+
+
+
+
