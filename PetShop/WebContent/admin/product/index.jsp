@@ -1,8 +1,10 @@
+<%@page import="com.pet.controller.common.Pager"%>
 <%@page import="com.pet.model.product.Product"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Product> productList=(List)request.getAttribute("productList");
+	Pager pager = (Pager)request.getAttribute("pager");
 %>
 <!DOCTYPE html>
 <html>
@@ -114,12 +116,16 @@ tr:nth-child(even) {
 			<th>가격</th>
 			<th>브랜드</th>
 		</tr>
-		<%for(int i = 0; i < productList.size(); i++){%>
-		<%Product product = productList.get(i);%>
+		
+		<%int curPos=pager.getCurPos();%>
+		<%int num=pager.getNum();%>
+		<%for(int i = 0; i < pager.getPageSize(); i++){%>
+		<%if(num<1)break;%>
+		<%Product product = productList.get(curPos++);%>
 		<tr>
-			<td>1</td>
+			<td><%=num--%></td>
 			<td><img src="/data/<%=product.getFilename()%>" width="35px"/></td>
-			<td><%%></td>
+			<td><%=product.getCategory().getCategory_name()%></td>
 			<td><%=product.getProduct_name()%></td>
 			<td><%=product.getPrice()%></td>
 			<td><%=product.getBrand()%></td>
@@ -130,6 +136,15 @@ tr:nth-child(even) {
 				<button onclick="location.href='/admin/product/registForm.jsp';">상품등록</button>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="6" style="text-align:center">
+				<%for(int i=pager.getFirstPage(); i<=pager.getLastPage(); i++){%>
+				<%if(i>pager.getTotalPage())break;%>
+				<a href ="/admin/product/list?currentPage=<%=i%>">[<%=i%>]</a>
+				<%}%>
+			</td>
+		</tr>
+		
 	</table>
 
 </body>

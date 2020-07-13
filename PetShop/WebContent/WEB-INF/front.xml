@@ -26,5 +26,8 @@
 		<mvc:default-servlet-handler/>
 		<mvc:annotation-driven/>
 	
+	<!-- 파일 업로드 빈 등록 -->
+	<bean id="multipartResolver" 
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 </beans>

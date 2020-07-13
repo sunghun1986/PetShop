@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.pet.controller.common.Pager;
 import com.pet.exception.DMLException;
 import com.pet.exception.FileSaveException;
 import com.pet.model.product.Product;
@@ -21,6 +22,9 @@ import com.pet.model.product.ProductService;
 public class ProductController {	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private Pager pager;
 
 	@RequestMapping(value="/admin/product/regist",
 			method=RequestMethod.POST)
@@ -50,10 +54,15 @@ public class ProductController {
 	
 	@RequestMapping(value="/admin/product/list",
 			method=RequestMethod.GET)
-	public ModelAndView selectAll() {
+	public ModelAndView selectAll(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		List productList = productService.selectAll();
+		
+		//페이징 처리 객체
+		pager.init(productList, request);
+		
 		mav.addObject("productList", productList);
+		mav.addObject("pager",pager);
 		mav.setViewName("admin/product/index");
 		return mav;
 	}

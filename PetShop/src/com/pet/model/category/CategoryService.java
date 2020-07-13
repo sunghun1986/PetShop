@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pet.exception.CategoryDMLException;
+import com.pet.exception.DMLException;
 
 @Service
 public class CategoryService {
@@ -20,7 +20,7 @@ public class CategoryService {
 		return categoryDAO.selectAll();
 	}
 	
-	public void delete(int category_id) throws CategoryDMLException{
+	public void delete(int category_id) throws DMLException{
 		categoryDAO.delete(category_id);
 	}
 	

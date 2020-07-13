@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.pet.exception.CategoryDMLException;
+import com.pet.exception.DMLException;
 
 @Repository
 public class CategoryDAO {
@@ -20,7 +20,7 @@ public class CategoryDAO {
 		if(result != 1) {
 			//서비스 영역에서 , 여기서 문제가 발생했음을 알수 있도록
 			//조치를 취한다!
-			throw new CategoryDMLException("등록실패입니다");
+			throw new DMLException("등록실패입니다");
 		}
 	}
 	
@@ -30,11 +30,11 @@ public class CategoryDAO {
 		return list;
 	}
 	
-	public void delete(int category_id) throws CategoryDMLException{
+	public void delete(int category_id) throws DMLException{
 		int result = sessionTemplate.delete("Category.delete" , category_id);
 		
 		if(result == 0) {
-			throw new CategoryDMLException("카테고리 삭제에 실패하였습니다");
+			throw new DMLException("카테고리 삭제에 실패하였습니다");
 		}
 	}
 

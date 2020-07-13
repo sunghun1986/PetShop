@@ -11,6 +11,11 @@
 		<result column="rank" property="rank"/>
 	</resultMap>
 	
+	<!-- 한건가져오기 -->
+	<select id="select" parameterType="int" resultType="Category">
+		select * from category where category_id=#{category_id}
+	</select>
+	
 	<!--셀렉트  -->
 	<select id="selectAll"  resultMap="categoryMap">
 		select category_id, category_name, rank
