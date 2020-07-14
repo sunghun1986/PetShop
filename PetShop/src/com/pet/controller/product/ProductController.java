@@ -100,7 +100,19 @@ public class ProductController {
 		model.addAttribute("url", "/admin/product/detail?product_id="+product.getProduct_id());
 		model.addAttribute("msg", "수정 성공");
 		return "view/message";
+	}	
+	
+	//사용자 요청처리, 메인 상세보기
+	@RequestMapping(value = "/shop/detail", method = RequestMethod.GET)
+	public String getDetail(Model model, @RequestParam int product_id) {		
+		Product product = productService.select(product_id);
+		model.addAttribute("product", product);
+		return "shop/detail";
 	}
+	
+	//장바구니
+
+	
 
 	@ExceptionHandler({ FileException.class, DMLException.class })
 	public ModelAndView handle(FileException e, DMLException e2) {

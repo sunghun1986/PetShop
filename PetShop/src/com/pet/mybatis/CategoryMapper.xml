@@ -33,7 +33,9 @@
 		delete from category where category_id=#{category_id}
 	</delete>
 	
-	
-	
+
 	
 </mapper>
+
+
+
