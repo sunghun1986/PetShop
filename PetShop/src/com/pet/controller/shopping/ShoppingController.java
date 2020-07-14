@@ -74,12 +74,31 @@ public class ShoppingController {
 		
 		return "view/message";
 	}
-	
+	//장바구니 비우기
 	@RequestMapping(value="/shop/cart/remove", method=RequestMethod.GET)
 	public String removeOne(Model model, HttpSession session) {
 		session.removeAttribute("cartList");
 		model.addAttribute("msg","장바구니를 비웠습니다");
 		model.addAttribute("url","/shop/cart/list");
+		
+		return "view/message";
+	}
+	
+	//수정하기
+	@RequestMapping(value="/shop/cart/edit", method=RequestMethod.GET)
+	public String edit(Model model, Cart cart, HttpSession session) {
+		List<Cart> cartList = (List)session.getAttribute("cartList");
+		
+		//List에 들어있는 Cart 객체 끄집어 내기
+		for(int i = 0; i<cartList.size(); i++) {
+			Cart obj = cartList.get(i);
+			if(obj.getProduct_id() == cart.getProduct_id()) {
+				obj.setEa(cart.getEa());//갯수 대체
+			}
+		}
+		model.addAttribute("msg","장바구니가 수정되었습니다");
+		model.addAttribute("url","/shop/cart/list");
+		
 		
 		return "view/message";
 	}
