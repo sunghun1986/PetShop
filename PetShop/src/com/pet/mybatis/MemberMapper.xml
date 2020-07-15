@@ -4,8 +4,13 @@
 
 	<!-- insert -->
 	<insert id="insert" parameterType="Member">
-		insert into member(member_id,id,password,name,email,phone)
-		values(seq_member.nextval,#{id},#{password},#{name},#{email},#{phone})
+		insert into member(member_id, id ,password, name, email,phone)
+		values(seq_member.nextval, #{id}, #{password}, #{name}, #{email}, #{phone})
 	</insert>
+	
+	<select id="loginCheck" parameterType="Member" resultType="Member">
+		select * from member
+		where id=#{id} and password=#{password}
+	</select>
 
 </mapper>

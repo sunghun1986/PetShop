@@ -8,26 +8,52 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<bean id="handlerMapping" 
-	class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-	
-	<bean id="viewResolver" 
-	class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-	p:prefix="/"
-	p:suffix=".jsp"/>
-	
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/" p:suffix=".jsp" />
+
 	<context:component-scan base-package="com.pet">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>		
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	
-	<!-- 정적자원(img,html,css,js)까지 
-		DispatcherSerlvet이 요청을 처리하지 않게 하자!! (정적자원처리법)
-		따라서, 아래의 태그를 등록하면, 다시 디폴트 서블릿이 정상화 된다..-->
-		<mvc:default-servlet-handler/>
-		<mvc:annotation-driven/>
-	
+
+	<!-- 정적자원(img,html,css,js)까지 DispatcherSerlvet이 요청을 처리하지 않게 하자!! (정적자원처리법) 
+		따라서, 아래의 태그를 등록하면, 다시 디폴트 서블릿이 정상화 된다.. -->
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
+
 	<!-- 파일 업로드 빈 등록 -->
-	<bean id="multipartResolver" 
-	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<!-- responbody 응답시 한글처리 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=utf-8</value>
+						<value>application/json;charset=utf-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
 
 </beans>
+
+
+
+
+
+
+
+
+
+
+

@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="/css/style.css" rel="stylesheet" type="text/css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
+<%@ include file="/include/head.jsp"%>
+
 <style>
 body {
 	font-family: Arial, Helvetica, sans-serif;
@@ -118,17 +119,29 @@ input[type=button]:hover {
 	}
 }
 </style>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 	$(function() {
-		//로그인 버튼 누르면...
-		$("input[type='button']").click(function() {
-			$("form").attr({
-				"action" : "/admin/login",
-				"method" : "post"
+		$("#bt_login").on("click",function(){
+			$.ajax({//비동기전송
+				"url":"/member/login",
+				"type":"post",
+				"data":{
+					"id":$("input[name='id']").val() ,
+					"password":$("input[name='password']").val() 
+				},
+				success:function(result){
+					//console.log(result.code);
+					//로그인 성공한경우
+					if(result.code == undefined){
+						alert(result.id+" 님 안녕하세요")
+						location.href="/"; //메인을 요청!!
+					}else{
+					//로그인 실패한 경우
+						alert(result.msg);
+					}
+				}
 			});
-			$("form").submit();
 		});
 	});
 </script>
@@ -162,8 +175,8 @@ input[type=button]:hover {
 						</div>
 
 						<input type="text" name="id" placeholder="Username" required>
-						<input type="password" name="password" placeholder="Password"
-							required> <input type="button" value="Login">
+						<input type="password" name="password" placeholder="Password" required>
+						<input type="button" id="bt_login" value="Login">
 					</div>
 
 				</div>
