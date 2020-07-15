@@ -23,7 +23,7 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@RequestMapping(value="/member/login" , method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/member/login" , method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public Member loginCheck(Member member, HttpSession session) {
 		System.out.println(member.getId());
@@ -36,6 +36,18 @@ public class MemberController {
 		//VO를 자동으로 json 형식으로 변환해주는 라이브러리가 있음..		
 		return obj;
 	}
+	
+	@RequestMapping(value="/member/logout" , method=RequestMethod.GET)
+	public String logout(Model model,HttpSession session) {
+		//세션을 소멸시켜 버린다!!
+		session.invalidate();//현재 클라이언트와 관련된 세션을 무효화 시킴!
+		//주의 객체를 소멸하는건 아니다.. 자바에서는 객체를 죽일수는 없으니...
+		model.addAttribute("msg","안녕히가세요");
+		model.addAttribute("url","/");
+		return "view/message";
+		
+	}
+	
 	
 	
 	@RequestMapping(value="/member/regist" , method=RequestMethod.POST)

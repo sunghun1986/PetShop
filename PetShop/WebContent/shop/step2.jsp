@@ -1,3 +1,4 @@
+<%@page import="com.pet.model.order.OrderSummary"%>
 <%@page import="com.pet.model.product.Cart"%>
 <%@page import="java.util.List"%>
 <%@page import="com.pet.model.product.Product"%>
@@ -5,6 +6,8 @@
 <%
 	List<Cart> cartList=(List)session.getAttribute("cartList");
 	Member obj = (Member)session.getAttribute("member");
+	OrderSummary orderSummary = (OrderSummary)request.getAttribute("orderSummary");
+	//out.print(orderSummary.getSame());
 %>
 <!DOCTYPE html>
 <html>
@@ -68,38 +71,29 @@ th, td {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-#buyer, #receiver{
-	width:48%;
-	border:2px solid red;
+#buyer{
+	width:95%;
+	border:3px solid red;
 	display:inline-block;
+}
+input[type='text']{
+	border:0px;
+	background:green;
 }
 </style>
 <script>
-$(function(){
-	$("input[type='checkbox']").click(function(){
-		copy();
-		$("input[name='raddr']").focus();
-	});
-});
-
-//주문자 정보를 받을사람 정보로 옮기기
-function copy(){
-	var cname=$("input[name='cname']").val();
-	var cphone=$("input[name='cphone']").val();	
-	
-	$("input[name='receiver.rname']").val(cname);
-	$("input[name='receiver.rphone']").val(cphone);
-	
-}
-
-//결제하기 단계 요청
+//결제 3단계 요청하기 (결제 완료짓기)
 function pay(){
+	if(!confirm("입력하신 정보로 결제할까요?")){
+		return;
+	}
 	$("form").attr({
-		"action":"/shop/step2",
-		"method":"post"		
+		"action":"/shop/step3",
+		"method":"post"
 	});
 	$("form").submit();
 }
+
 
 </script>
 </head>
@@ -108,7 +102,7 @@ function pay(){
 <div id="body">
   <div id="content">
 		<!-- 장바구니 표 -->
-		<h2>결제하기</h2>
+		<h2>결제정보 확인</h2>
 
 		<table width="100%">
 		  <tr>
@@ -133,34 +127,38 @@ function pay(){
 		  </tr>
 		  <%}%>
 		  <tr>
-		  	<td colspan="6" style="text-align:right">구매 총액 : <%=totalBuy%>원</td>
+		  	<td colspan="6" style="text-align:right">구매 총액 : <%=totalBuy %>원</td>
 		  </tr>
 		</table>		
 
 
 	  <form>
-		<input type="hidden" name="total_pay" value="<%=totalBuy%>"/>
+	  <%
+	  if(orderSummary.getSame() == null){
+		  orderSummary.setSame("yes");
+	  };
+	  %>
+			<input type="hidden" name="same" value="<%=orderSummary.getSame()%>">
 	  	<div id="buyer">
-		    <input type="text" id="fname" name="cname" value="<%=obj.getName()%>">
-		    <input type="text" id="lname" name="cphone" value="<%=obj.getPhone()%>">
-		    <input type="text" id="lname" name="email" value="<%=obj.getEmail()%>">
-		    <select id="country" name="pay_method">
-		      <option value="0">결제방법</option>
-		      <option value="card">신용카드</option>
-		      <option value="online">온라인 입금</option>
-		      <option value="phone">핸드폰 결제</option>
-		    </select>
-	    </div>
-	    <div id="receiver">
-	    	<input type="checkbox" name="same" value="yes"/>주문자 정보와 동일
-		    <input type="text" id="fname" name="receiver.rname" placeholder="받는분 이름">
-		    <input type="text" id="lname" name="receiver.rphone" placeholder="받는 분 연락처">
-		    <input type="text" id="lname" name="receiver.raddr" placeholder="받는 분 주소">
+		    <input type="text" readonly name="cname" value="<%=obj.getName()%>">
+		    <input type="text" readonly name="cphone" value="<%=obj.getPhone()%>">
+		    <input type="text" readonly name="email" value="<%=obj.getEmail()%>">
+		    <input type="text" readonly name="pay_method" value="<%=orderSummary.getPay_method()%>">
+		    	    	
+		    <%if(orderSummary.getSame() != null){%>
+			    <input type="text" id="fname" name="receiver.rname" value="<%=obj.getName()%>">
+			    <input type="text" id="lname" name="receiver.rphone" value="<%=obj.getPhone()%>">
+			    <input type="text" id="lname" name="receiver.raddr" value="<%=obj.getAddr()%>">
+		    <%}else{%>
+				   <input type="text" id="fname" name="receiver.rname" value="<%=orderSummary.getReceiver().getRname()%>">
+			    <input type="text" id="lname" name="receiver.rphone" value="<%=orderSummary.getReceiver().getRphone()%>">
+			    <input type="text" id="lname" name="receiver.raddr" value="<%=orderSummary.getReceiver().getRaddr()%>">
+		    <%}%>
 	    </div>
 	  </form>
 
 	  <input type="button" value="결제하기" onclick="pay()"/>
-	  <input type="button" value="쇼핑계속"/>
+	  <input type="button" value="이전단계" onclick="history.back();"/>
 
   </div>
   <div class="featured">

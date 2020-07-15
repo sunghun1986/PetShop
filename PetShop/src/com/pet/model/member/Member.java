@@ -11,6 +11,7 @@ public class Member {
 	private String email;
 	private String phone;
 	private String regdate;
+	private String addr;
 	
 	public int getMember_id() {
 		return member_id;
@@ -54,7 +55,11 @@ public class Member {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-	
-	
-	
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+			
 }
