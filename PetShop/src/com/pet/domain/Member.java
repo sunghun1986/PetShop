@@ -1,6 +1,4 @@
-package com.pet.model.member;
-
-import com.pet.model.category.Category;
+package com.pet.domain;
 
 public class Member {
 	
