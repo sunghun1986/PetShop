@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pet.controller.common.Pager;
+import com.pet.domain.OrderSummary;
 import com.pet.model.order.OrderService;
 
 //관리자의 주문 처리 
@@ -38,9 +39,11 @@ public class OrderController {
 	
 	//주문내역 상세보기
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
-	public String select(Model model, @RequestParam int order_summary_id) {		
-		List detailList = orderService.getOrderDetail(order_summary_id);
-		model.addAttribute("detailList" , detailList);				
+	public String select(Model model, @RequestParam int order_summary_id) {
+		OrderSummary orderSummary = orderService.select(order_summary_id);
+		List detailList = orderService.getOrderDetail(order_summary_id);		
+		model.addAttribute("detailList" , detailList);			
+		model.addAttribute("orderSummary" , orderSummary);			
 		return "admin/order/detail";
 	}
 

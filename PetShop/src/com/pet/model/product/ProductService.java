@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pet.domain.Event;
 import com.pet.domain.Product;
 import com.pet.exception.DMLException;
 import com.pet.exception.FileException;
 import com.pet.model.common.file.FileManager;
+import com.pet.model.event.EventDAO;
 
 @Service
 public class ProductService {
@@ -18,6 +20,8 @@ public class ProductService {
 	private ProductDAO productDAO;
 	@Autowired
 	private FileManager fileManager;
+	@Autowired
+	private EventDAO eventDAO;
 	
 	public void regist(Product product , MultipartFile myFile, String realPath) throws DMLException , FileException{
 		String filename = FileManager.saveFile(myFile, realPath);		
@@ -48,10 +52,17 @@ public class ProductService {
 			
 			String filename = FileManager.saveFile(multi, realPath);
 			product.setFilename(filename);
-			productDAO.update(product);
-			
-		}
+			productDAO.update(product);			
+		}	
+	}
 	
+	//이벤트 등록
+	public void registEvent(Event event) throws DMLException{
+		eventDAO.insert(event);
+	}
+	//이벤트 목록
+	public List getEventList() {
+		return eventDAO.selectAll();
 	}
 
 }

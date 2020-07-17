@@ -1,3 +1,4 @@
+<%@page import="com.pet.domain.Receiver"%>
 <%@page import="com.pet.domain.OrderDetail"%>
 <%@page import="com.pet.domain.OrderSummary"%>
 <%@page import="com.pet.controller.common.Pager"%>
@@ -6,7 +7,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<OrderDetail> detailList=(List)request.getAttribute("detailList");
-	out.print(detailList.size());
+	OrderSummary orderSummary = (OrderSummary)request.getAttribute("orderSummary");
+	Receiver receiver = orderSummary.getReceiver();
 %>
 <!DOCTYPE html>
 <html>
@@ -47,20 +49,27 @@ function getDetail(order_summary_id){
 	<h3>구매 상품 정보</h3>
 	<table>
 	  <tr>
-	    <th>No</th>
-	    <th>주문자</th>
-	    <th>주문금액</th>
-	    <th>주문일시</th>
-	    <th>결제방법</th>
-	    <th>받는 사람</th>
+	    <th>상품코드</th>
+	    <th>이미지</th>
+	    <th>카테고리</th>
+	    <th>상품명</th>
+	    <th>가격</th>
+	    <th>브랜드</th>
+	  </tr>
+	  <%for(int i = 0; i < detailList.size(); i++){%>
+	  <%
+	  	OrderDetail orderDetail = detailList.get(i);
+	  	Product product = orderDetail.getProduct();
+	  %>
+	  <tr>
+	    <td><%=product.getProduct_id()%></td>
+		<td><img src="/data/<%=product.getFilename()%>" width='45px'/></td>
+		<td><%=product.getCategory().getCategory_name()%></td>
+		<td><%=product.getProduct_name()%></td>
+		<td><%=product.getPrice()%></td>
+		<td><%=product.getBrand()%></td>
 	  </tr>	
-	    <td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-	  </tr>	
+	  <%}%>
 	  <tr>
 	  	<td colspan="7" align="center">
 	  		<button onClick="location.href='/admin/product/registForm.jsp';">상품등록</button>
@@ -76,20 +85,23 @@ function getDetail(order_summary_id){
 <div id="payInfo">
 	<h3>결제 내역</h3>
 	<table>
-	  <tr>
-	    <th>No</th>
-	    <th>주문자</th>
-	    <th>주문금액</th>
+	  <tr>	    
+	    <th>주문자</th>	    
+	    <th>연락처</th>	    
+	    <th>이메일</th>	    
+	    <th>주소</th>	    
+	    <th>결제금액</th>
 	    <th>주문일시</th>
-	    <th>결제방법</th>
-	    <th>받는 사람</th>
-	  </tr>	
-	    <td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
+	    <th>결제방법</th>	    
+	  </tr>
+	  <tr>
+	    <td><%=orderSummary.getMember().getName()%></td>
+		<td><%=orderSummary.getMember().getPhone()%></td>
+		<td><%=orderSummary.getMember().getEmail()%></td>
+		<td><%=orderSummary.getMember().getAddr()%></td>
+		<td><%=orderSummary.getTotal_pay()%></td>
+		<td><%=orderSummary.getOrder_date()%></td>
+		<td><%=orderSummary.getPay_method()%></td>
 	  </tr>	
 	  <tr>
 	  	<td colspan="7" align="center">
@@ -107,19 +119,16 @@ function getDetail(order_summary_id){
 	<h3>배송자 정보</h3>
 	<table>
 	  <tr>
-	    <th>No</th>
-	    <th>주문자</th>
-	    <th>주문금액</th>
-	    <th>주문일시</th>
-	    <th>결제방법</th>
-	    <th>받는 사람</th>
-	  </tr>	
-	    <td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
-		<td><%%></td>
+	    <th>배송자 코드</th>
+	    <th>받는사람</th>
+	    <th>연락처</th>
+	    <th>주소</th>	    
+	  </tr>
+	  <tr>
+		<td><%=receiver.getReceiver_id()%></td>
+	    <td><%=receiver.getRname()%></td>
+		<td><%=receiver.getRphone()%></td>
+		<td><%=receiver.getRaddr()%></td>		
 	  </tr>	
 	  <tr>
 	  	<td colspan="7" align="center">
