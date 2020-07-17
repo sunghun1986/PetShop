@@ -12,7 +12,12 @@
 			select seq_receiver.currval as receiver_id from dual
 		</selectKey>
 	</insert>
-
+	
+	<!-- 한건 가져오기 -->
+	<select id="select" parameterType="int" resultType="Receiver">
+		select * from receiver
+		where receiver_id=#{receiver_id}
+	</select>
 	
 </mapper>
 

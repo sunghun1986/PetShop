@@ -1,9 +1,12 @@
 package com.pet.model.order;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.pet.domain.OrderSummary;
 import com.pet.exception.DMLException;
 
 @Repository
@@ -19,5 +22,29 @@ public class OrderSummaryDAO {
 			throw new DMLException("주문정보가 등록되지 않았습니다");
 		}
 	}
+	
+	//주문목록 가져오기
+	public List selectAll() {
+		return sessionTemplate.selectList("OrderSummary.selectAll");		
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

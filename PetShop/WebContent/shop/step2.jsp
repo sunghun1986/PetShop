@@ -1,7 +1,7 @@
-<%@page import="com.pet.model.order.OrderSummary"%>
-<%@page import="com.pet.model.product.Cart"%>
+<%@page import="com.pet.domain.OrderSummary"%>
+<%@page import="com.pet.domain.Cart"%>
 <%@page import="java.util.List"%>
-<%@page import="com.pet.model.product.Product"%>
+<%@page import="com.pet.domain.Product"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Cart> cartList=(List)session.getAttribute("cartList");
@@ -133,27 +133,17 @@ function pay(){
 
 
 	  <form>
-	  <%
-	  if(orderSummary.getSame() == null){
-		  orderSummary.setSame("yes");
-	  };
-	  %>
-			<input type="hidden" name="same" value="<%=orderSummary.getSame()%>">
+	 
 	  	<div id="buyer">
 		    <input type="text" readonly name="cname" value="<%=obj.getName()%>">
 		    <input type="text" readonly name="cphone" value="<%=obj.getPhone()%>">
 		    <input type="text" readonly name="email" value="<%=obj.getEmail()%>">
 		    <input type="text" readonly name="pay_method" value="<%=orderSummary.getPay_method()%>">
-		    	    	
-		    <%if(orderSummary.getSame() != null){%>
-			    <input type="text" id="fname" name="receiver.rname" value="<%=obj.getName()%>">
-			    <input type="text" id="lname" name="receiver.rphone" value="<%=obj.getPhone()%>">
-			    <input type="text" id="lname" name="receiver.raddr" value="<%=obj.getAddr()%>">
-		    <%}else{%>
-				   <input type="text" id="fname" name="receiver.rname" value="<%=orderSummary.getReceiver().getRname()%>">
-			    <input type="text" id="lname" name="receiver.rphone" value="<%=orderSummary.getReceiver().getRphone()%>">
-			    <input type="text" id="lname" name="receiver.raddr" value="<%=orderSummary.getReceiver().getRaddr()%>">
-		    <%}%>
+		    
+		    <input type="text" readonly name="receiver.rname" value="<%=orderSummary.getReceiver().getRname()%>">
+		    <input type="text" readonly name="receiver.rphone" value="<%=orderSummary.getReceiver().getRphone()%>">
+		    <input type="text" readonly name="receiver.raddr" value="<%=orderSummary.getReceiver().getRaddr()%>"> 	
+		    
 	    </div>
 	  </form>
 
