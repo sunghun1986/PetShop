@@ -1,5 +1,7 @@
 package com.pet.model.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,16 @@ import com.pet.domain.Member;
 import com.pet.exception.DMLException;
 import com.pet.exception.DataNotFoundException;
 import com.pet.model.member.MemberService;
+import com.pet.model.order.OrderService;
 
 @Controller
 public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@RequestMapping(value="/member/login" , method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
@@ -58,6 +64,23 @@ public class MemberController {
 		
 		return "view/message";
 	}
+	
+	//마이페이지
+	@RequestMapping(value="/member/mypage" , method=RequestMethod.GET)
+	public String getMyPage(Model model,HttpSession session) {
+		//회원정보 (한사람) MemberService
+		Member member = (Member)session.getAttribute("member");
+		model.addAttribute("member",member);
+		
+		//결제내역 OrderService
+		List orderList = orderService.selectAllByMember(member);
+		model.addAttribute("orderlist",orderList);
+		
+		//상담내역 BoardService
+		
+		return "member/mypage";
+	}
+	
 	
 	@ExceptionHandler(DataNotFoundException.class)
 	@ResponseBody

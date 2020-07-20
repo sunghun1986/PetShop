@@ -10,7 +10,7 @@
    <li><a href="/event/list">기획상품</a></li>
       
 	<li><a href="/shop/cart/list">장바구니</a></li>   
-   <li><a href="/mypage/list">MyPage</a></li>
+   <li><a href="/member/mypage">MyPage</a></li>
    <%if(member == null){%>
 	   <li><a href="/member/login.jsp">로그인</a></li>
    <%}else{%>
